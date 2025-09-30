@@ -10,6 +10,9 @@ import { Suspense } from "react"
 export const metadata: Metadata = {
   title: "Dex",
   description: "Automated Workflows platform",
+  icons: {
+    icon: "/images/dex.jpg"
+  },
 }
 
 export default function RootLayout({
