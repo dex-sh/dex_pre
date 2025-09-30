@@ -1,0 +1,214 @@
+/* New: micro-animations for hero, respecting reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  /* Subtle dotted + crosshair pan on the hero background */
+  .brutalist-grid::before {
+    animation: dot-pan 14s linear infinite;
+  }
+  .brutalist-grid::after {
+    animation: cross-pan 48s linear infinite;
+  }
+
+  /* Reveal utilities for staged entrance */
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: reveal-up 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  .delay-0 {
+    animation-delay: 0s;
+  }
+  .delay-1 {
+    animation-delay: .06s;
+  }
+  .delay-2 {
+    animation-delay: .12s;
+  }
+  .delay-3 {
+    animation-delay: .18s;
+  }
+  .delay-4 {
+    animation-delay: .24s;
+  }
+  .delay-5 {
+    animation-delay: .30s;
+  }
+  .delay-6 {
+    animation-delay: .36s;
+  }
+  .delay-7 {
+    animation-delay: .42s;
+  }
+
+  /* Tiles: faint float + hover lift */
+  .tile-float {
+    animation: float-y 7s ease-in-out infinite alternate;
+  }
+  .tile:nth-child(3n) .tile-float {
+    animation-duration: 8.5s;
+    animation-delay: .4s;
+  }
+  .tile:nth-child(4n) .tile-float {
+    animation-duration: 9.5s;
+    animation-delay: .8s;
+  }
+  .tile:hover {
+    transform: translateY(-2px);
+    transition: transform 300ms ease, background-color 300ms ease;
+  }
+  .tile {
+    transition: background-color 300ms ease;
+  }
+
+  /* SVG motion hooks */
+  .anim-orbit {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: orbit-rotate 18s linear infinite;
+  }
+  .anim-dash {
+    stroke-dasharray: 8 10;
+    animation: dash-move 6s linear infinite;
+  }
+  .anim-pulse {
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  .anim-pulse.delay-1 {
+    animation-delay: .3s;
+  }
+  .anim-pulse.delay-2 {
+    animation-delay: .6s;
+  }
+  .ink-fill {
+    fill: currentColor;
+  }
+
+  /* CTA button: gentle scan sweep + press micro-bounce + breathing dots */
+  .cta-anim {
+    transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 240ms ease, background-color 240ms ease;
+  }
+  .cta-anim:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px color-mix(in oklab, var(--hero-ink) 12%, transparent);
+  }
+  .cta-anim:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px color-mix(in oklab, var(--hero-ink) 10%, transparent);
+  }
+  .cta-anim::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.25) 12%, transparent 25%);
+    mix-blend-mode: overlay;
+    transform: translateX(-120%);
+    animation: scan 2.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .cta-anim .dot {
+    animation: dot-breathe 2.2s ease-in-out infinite;
+  }
+  .cta-anim[data-busy="true"] {
+    cursor: progress;
+    opacity: 0.9;
+  }
+  .input-soft {
+    transition: box-shadow 220ms ease, background-color 220ms ease;
+  }
+  .input-soft:focus {
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--hero-ink) 10%, transparent);
+    background: color-mix(in oklab, var(--hero-bg) 92%, white 8%);
+  }
+}
+
+/* Keyframes */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes float-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-4px);
+  }
+}
+@keyframes orbit-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes dash-move {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -180;
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+@keyframes dot-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+@keyframes scan {
+  0% {
+    transform: translateX(-120%);
+  }
+  60% {
+    transform: translateX(120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+@keyframes dot-pan {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 16px 16px;
+  }
+}
+@keyframes cross-pan {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 96px 0, 0 96px;
+  }
+}
+
+/* Accessibility: disable motion on reduced */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

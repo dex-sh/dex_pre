@@ -1,0 +1,185 @@
+/* add brutalist grid + bracketed accents tailored to the reference style */
+:root {
+  /* local hero tokens (mapped to existing theme vars) */
+  --hero-ink: var(--color-foreground);
+  --hero-bg: var(--color-background);
+  --hero-stroke: var(--color-border);
+  --hero-accent: var(--color-foreground);
+}
+
+/* dotted paper grid background */
+.brutalist-grid {
+  position: relative;
+  background-color: var(--hero-bg);
+  isolation: isolate;
+}
+.brutalist-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--hero-stroke) 0.6px, transparent 0.7px);
+  background-size: 16px 16px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* faint crosshair lines to echo engineering paper */
+.brutalist-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      to right,
+      color-mix(in oklab, var(--hero-stroke) 45%, transparent) 1px,
+      transparent 1px
+    ), linear-gradient(to bottom, color-mix(in oklab, var(--hero-stroke) 45%, transparent) 1px, transparent 1px);
+  background-size: 96px 96px;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* card frame with hairline border */
+.frame {
+  border: 1px solid var(--hero-stroke);
+  background: color-mix(in oklab, var(--hero-bg) 96%, white 4%);
+}
+
+/* bracket/corner accents (L-shaped corners) */
+.corners {
+  position: relative;
+  isolation: isolate;
+}
+.corners > .corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--hero-ink);
+  z-index: 2;
+}
+.corner.tl {
+  top: -6px;
+  left: -6px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.corner.tr {
+  top: -6px;
+  right: -6px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+}
+.corner.bl {
+  bottom: -6px;
+  left: -6px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+}
+.corner.br {
+  bottom: -6px;
+  right: -6px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* CTA button with bracketed look */
+.bracket-btn {
+  position: relative;
+  border: 1.5px solid var(--hero-ink);
+  background: var(--hero-ink);
+  color: var(--color-primary-foreground);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.bracket-btn:focus-visible {
+  outline: 2px solid var(--hero-ink);
+  outline-offset: 2px;
+}
+.bracket-btn .dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--hero-ink);
+}
+.bracket-btn .dot.tl {
+  top: -6px;
+  left: -6px;
+}
+.bracket-btn .dot.tr {
+  top: -6px;
+  right: -6px;
+}
+.bracket-btn .dot.bl {
+  bottom: -6px;
+  left: -6px;
+}
+.bracket-btn .dot.br {
+  bottom: -6px;
+  right: -6px;
+}
+
+/* reference image collage */
+.ref-collage {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  opacity: 0.8;
+}
+.ref-collage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  border: 1px solid var(--hero-stroke);
+  background: var(--hero-bg);
+}
+@media (min-width: 768px) {
+  .ref-collage {
+    gap: 10px;
+  }
+}
+
+/* tile-grid styles for custom SVG graphics (replacing image collage) */
+.tile-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  opacity: 0.95;
+}
+@media (min-width: 768px) {
+  .tile-grid {
+    gap: 10px;
+  }
+}
+
+.tile {
+  border: 1px solid var(--hero-stroke);
+  background: color-mix(in oklab, var(--hero-bg) 96%, white 4%);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* make tiles keep a pleasant aspect ratio without layout shift */
+.tile > svg {
+  aspect-ratio: 4 / 3;
+}
+
+/* subtle hover elevation consistent with brutalist style */
+.tile:hover {
+  background: color-mix(in oklab, var(--hero-bg) 92%, white 8%);
+}
+
+/* small caption */
+.kicker {
+  font-family: var(--font-geist-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--hero-ink) 65%, var(--hero-stroke));
+  font-size: 0.75rem;
+}
